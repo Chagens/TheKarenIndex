@@ -1,0 +1,56 @@
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  1) import sys
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  6) from PyQt6.QtWidgets import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  7) from PyQt6.QtCore import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  8) from PyQt6.QtGui import QIcon, QFont, QWindow
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  9) from main_ui import Main_UI
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 24) class Main_Window(QMainWindow, Main_UI):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 25)     '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 26)       - It also calls setup_UI to set up the ui
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 27)       - The UI is manipulated within main_ui.py
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 29)     def __init__(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 30)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 31)           - Initialize UI with blank values
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 32)           - Initialize button to be pressed
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 33)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 34)         super(Main_Window, self).__init__()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 37)         self.setup_UI(self)  
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 39)         self.Favorite_button.pressed.connect(self.add_Favorites)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 40)         self.Favorites.activated.connect(self.select_favorite)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 42)         self.Remove_Favorite_button.pressed.connect(self.remove_favorite)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 43)         self.Search_button.pressed.connect(self.display_comment)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 44) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 45)         self.show()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 55)     
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 56)     def add_Favorites(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 57)        '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 58)           adds a comment to a list of Favorites
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 59)        '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 60)        self.Favorites.addItem(self.Searchbar.text())
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 61)     
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 62)     def select_favorite(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 63)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 64)           when you select a favorite, add it to the search bar to search again
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 65)           the later funtionality will just pull up the actual comment you saved
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 66)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 67)         self.Searchbar.setText(self.Favorites.currentText())
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 68) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 75)     def remove_favorite(self):
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 76)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 77)           removes entered phrase from favorites
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 78)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 79)     
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 80)         index = self.Favorites.findText(self.Searchbar.text())
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 81)         self.Favorites.removeItem(index)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 82) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 83)     def display_comment(self):
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 84)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 85)           display comment from webscraper
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 86)           NOTE: jeff bezos is mean to us so the scraper is not currently working
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 88)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 90)         self.Comment.setText("Unforunately jeff bezos hates CS majors and has put a roadblock in out righteous path to discover terrible comments for the time being please enjoy this copypasta: \n\nWhat the frick did you just flipping say about me, you little kid? I'll have you know I graduated top of my class in the Navy Seals, \nand I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed hugs. \nI am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. \nI will wipe you the frick out with precision the likes of which has never been seen before on this Earth, mark my flipping words. \nYou think you can get away with saying that stuff to me over the Internet? Think again, fricker. \nAs we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. \nThe storm that wipes out the pathetic little thing you call your life. \nYou're flipping dead, kid. I can be anywhere, anytime, and I can hug you in over seven hundred ways, and that's just with my bare hands. \nNot only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will \nuse it to its full extent to wipe your miserable butt off the face of the continent, you little kid. \nIf only you could have known what unholy retribution your little clever comment was about to bring down upon you, maybe you would have held your flipping tongue. \nBut you couldn't, you didn't, and now you're paying the price, you goshdarn idiot. \nI will blow fury all over you and you will drown in it. You're flipping dead, kiddo.")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 92) if __name__ == "__main__":
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 93)     app = QApplication(sys.argv) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 94)     
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 95)     window = Main_Window()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 96)     window.show()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 97) 

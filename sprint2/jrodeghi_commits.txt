@@ -1,0 +1,57 @@
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400  1) from audioop import reverse
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400  2) from operator import truediv
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400  3) from typing_extensions import Self
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400  9)     class Review:
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 10) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 11)         def __init__(self,text):
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 12)             self.review_text = text
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 13)             self.review_star = ""
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 14)             pass
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 15) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 16)         def add_star(self,star):
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 17)             self.review_star = star
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 18) 
+75ee9dde (Joel Rodeghiero 2022-04-06 22:02:31 -0400 25)         r = requests.get(url,headers= Scrap.HEADER)
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 29)     #returns a list of review classes with the text and star of each review
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 30)     def parsedata(self,soup):
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 31)         review_list = []
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 33) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 34)         #get the review text
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 36)             review_list.append( self.Review(item.get_text()))
+829691c9 (Joel Rodeghiero 2022-04-06 22:16:47 -0400 37) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 38)         #get the review stars
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 39)         i = 0
+829691c9 (Joel Rodeghiero 2022-04-06 22:16:47 -0400 40)         for item in soup.find_all("span",class_= "a-icon-alt"):
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 41)             review_list[i].add_star(item.get_text())
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 42)             i += i
+829691c9 (Joel Rodeghiero 2022-04-06 22:16:47 -0400 43) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 44)         return review_list
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 46)     #function that returns a pruned list of reviews for only the correct stars
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 47)     def prunereviews(self,review_list,stars):
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 48)         pruned_list = []
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 49) 
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 50)         #sort the list in reverse so that the largest are at the front
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 51)         review_list.sort(key=lambda x: x.review_stars, reverse = True)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 52) 
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 53)         for reviews in review_list:
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 54)             if reviews.review_stars == stars:
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 55)                 pruned_list.append(reviews)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 56) 
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 57)         return pruned_list
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 58) 
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 59) 
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 60) 
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 61)     #function that is suposed to parse the google html data
+8d0ea5ee (Joel Rodeghiero 2022-04-06 22:33:43 -0400 62)     #does not work
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 70)     #put the html into the Beautiful Soup parser and get out the reviews with the correct stars
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 71)     def html_code(self,url):
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 72)         htmldata = self.getdata(url)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 74)         reviews = self.parsedata(soup)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 75)         pruned_reviews = self.prunereviews(reviews,5)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 76)         print(pruned_reviews)
+aaf99a46 (Joel Rodeghiero 2022-04-06 22:44:36 -0400 77)         
+fb44a95f (Joel Rodeghiero 2022-04-06 22:01:05 -0400 78) 
+fb44a95f (Joel Rodeghiero 2022-04-06 22:01:05 -0400 81)     #URL = "https://www.google.com/search?q=ups%20store%20huntsville%20alabama&rlz=1C1MKDC_enUS856US856&oq=up&aqs=chrome.0.69i59j69i57j46i199i291i433i512j0i433i512j46i199i291i433i512j0i433i512j69i61l2.860j0j7&sourceid=chrome&ie=UTF-8&tbs=lf:1,lf_ui:4&tbm=lcl&rflfq=1&num=10&rldimm=8478361796219820579&lqi=Chx1cHMgc3RvcmUgaHVudHN2aWxsZSBhbGFiYW1hIgOIAQFIz-XOleaAgIAIWjIQABABGAAYARgCGAMiHHVwcyBzdG9yZSBodW50c3ZpbGxlIGFsYWJhbWEqBggCEAAQAZIBHHNoaXBwaW5nX2FuZF9tYWlsaW5nX3NlcnZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVTkpNelppVEVwQkVBRaoBERABKg0iCXVwcyBzdG9yZSgA&ved=2ahUKEwjPx4ap2rf2AhWEVN8KHchOAgQQvS56BAgCEE0&rlst=f#rlfi=hd:;si:8478361796219820579,l,Chx1cHMgc3RvcmUgaHVudHN2aWxsZSBhbGFiYW1hIgOIAQFIz-XOleaAgIAIWjIQABABGAAYARgCGAMiHHVwcyBzdG9yZSBodW50c3ZpbGxlIGFsYWJhbWEqBggCEAAQAZIBHHNoaXBwaW5nX2FuZF9tYWlsaW5nX3NlcnZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVTkpNelppVEVwQkVBRaoBERABKg0iCXVwcyBzdG9yZSgA;mv:[[34.8281121,-86.4785579],[34.6188113,-86.7321992]];tbs:lrf:!1m4!1u3!2m2!3m1!1e1!2m1!1e3!3sIAE,lf:1,lf_ui:4"
+fb44a95f (Joel Rodeghiero 2022-04-06 22:01:05 -0400 82)     #soup = html_code(URL)
+fb44a95f (Joel Rodeghiero 2022-04-06 22:01:05 -0400 83)     #reviews = parsedata(soup)
+fb44a95f (Joel Rodeghiero 2022-04-06 22:01:05 -0400 86)     #print(reviews)

@@ -1,0 +1,40 @@
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   2) import requests
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400   3) import time
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   5) from bs4 import BeautifulSoup
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   6) #from spellchecker import SpellChecker
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400  11) from reviewscraper import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  12) from storing import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  13) #from file_analysis import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  14) from word_library import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  15) class Leader_Window(QWidget):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  16)   def __init__(self):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  17)         super().__init__()
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  20)         self.setGeometry(100,100,800, 600)
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  21)         self.setWindowTitle('Leaderboard')
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  22)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  23)         self.label = QLabel("Leaderboard")
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  24)         self.widget = QWidget(self)
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  25)         self.widget.setObjectName("widget")         
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  27)         #match main background
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  28)         self.widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  29)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 brown, stop:1 gold);}")       self.widget.setGeometry(0,0,800, 600)
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  31)         #area to display leaderboard
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  33)         self.l1 = QLabel()
+7389e183 (Chagens 2022-04-20 21:31:15 -0400  34)         self.l1.setText("Short dated! First time I have ever received food from Amazon that has been such a short expiration date. So discouraging and disappointing.")
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  36)         
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  41)     '''  
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  48)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  49)         self.setWindowTitle('The Karen Index')
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  51)         self.Leaderboard_button.pressed.connect(self.display_leaderboard)
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  60)       
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  61)     def display_leaderboard(self):
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  62)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  63)           displays the leaderboard window
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  64)         '''
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  65)        #create sub window
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  66)         self.w = Leader_Window()
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  67)         #do stuff in window
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  68)         self.w.show()
+
+
+

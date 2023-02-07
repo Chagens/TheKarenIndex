@@ -1,0 +1,151 @@
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   1) import sys
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   2) import requests
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400   3) import time
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400   4) from PyQt6 import QtWidgets
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   5) from bs4 import BeautifulSoup
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400   6) #from spellchecker import SpellChecker
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   7) from PyQt6.QtWidgets import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   8) from PyQt6.QtCore import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   9) from PyQt6.QtGui import QIcon, QFont, QWindow
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  10) from main_ui import Main_UI
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400  11) from reviewscraper import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  12) from storing import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  13) #from file_analysis import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  14) from word_library import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  15) class Leader_Window(QWidget):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  16)   def __init__(self):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  17)         super().__init__()
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  18)         
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  19)         layout = QVBoxLayout(self)
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  20)         self.setGeometry(100,100,800, 600)
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  21)         self.setWindowTitle('Leaderboard')
+587a20aa (Chagens 2022-04-06 22:34:00 -0400  22)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  23)         self.label = QLabel("Leaderboard")
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  24)         self.widget = QWidget(self)
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  25)         self.widget.setObjectName("widget")
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  26)         
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  27)         #match main background
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  28)         self.widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  29)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 brown, stop:1 gold);}")
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  30)         self.widget.setGeometry(0,0,800, 600)
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  31)         #area to display leaderboard
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  32) 
+34eff49c (Chagens 2022-04-20 14:04:20 -0400  33)         self.l1 = QLabel()
+7389e183 (Chagens 2022-04-20 21:31:15 -0400  34)         self.l1.setText("Short dated! First time I have ever received food from Amazon that has been such a short expiration date. So discouraging and disappointing.")
+9fecb575 (nyy212  2022-04-20 14:54:59 -0400  35)         layout.addWidget(self.l1)
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  36)         
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  37) class Main_Window(QMainWindow, Main_UI):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  38)     '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  39)       - It also calls setup_UI to set up the ui
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  40)       - The UI is manipulated within main_ui.py
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  41)     '''  
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  42)     def __init__(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  43)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  44)           - Initialize UI with blank values
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  45)           - Initialize button to be pressed
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  46)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  47)         super(Main_Window, self).__init__()
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  48)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400  49)         self.setWindowTitle('The Karen Index')
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  50)         self.setup_UI(self)  
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  51)         self.Leaderboard_button.pressed.connect(self.display_leaderboard)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  52)         self.Favorite_button.pressed.connect(self.add_Favorites)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  53)         self.Favorites.activated.connect(self.select_favorite)
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400  54)         self.Themes.activated.connect(self.select_theme)
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  55)         self.Categories.activated.connect(self.select_category)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  56)         self.Remove_Favorite_button.pressed.connect(self.remove_favorite)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  57)         self.Search_button.pressed.connect(self.display_comment)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  58) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  59)         self.show()
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  60)       
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  61)     def display_leaderboard(self):
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  62)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  63)           displays the leaderboard window
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  64)         '''
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  65)        #create sub window
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  66)         self.w = Leader_Window()
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  67)         #do stuff in window
+f58cb4e5 (Chagens 2022-04-20 09:48:59 -0400  68)         self.w.show()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  69)     
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  70)     def add_Favorites(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  71)        '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  72)           adds a comment to a list of Favorites
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  73)        '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  74)        self.Favorites.addItem(self.Searchbar.text())
+ff6a9c1a (nyy212  2022-04-20 15:02:59 -0400  75)        
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  76)     
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  77)     def select_favorite(self):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  78)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  79)           when you select a favorite, add it to the search bar to search again
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  80)           the later funtionality will just pull up the actual comment you saved
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  81)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  82)         self.Searchbar.setText(self.Favorites.currentText())
+ff6a9c1a (nyy212  2022-04-20 15:02:59 -0400  83)         self.display_comment()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  84) 
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  85)     def select_category(self):
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  86)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  87)           selects the category
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  88)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  89)         self.Category.setText(self.Categories.currentText())
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500  90) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  91)     def remove_favorite(self):
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  92)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  93)           removes entered phrase from favorites
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  94)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  95)     
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  96)         index = self.Favorites.findText(self.Searchbar.text())
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  97)         self.Favorites.removeItem(index)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  98) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400  99)     def display_comment(self):
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 100)         '''
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 101)           display comment from webscraper
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 102)           NOTE: jeff bezos is mean to us so the scraper is not currently working
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400 103)           code was made as if bezos was not mean hence html_code call
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 104)           my favorite test case is https://www.amazon.com/Monster-Energy-Zero-Ultra-Sugar/dp/B00ADYXY7E/ref=sr_1_1?crid=39MZXP8BNDI3Z&keywords=10%2Blb%2Bmonster%2Bdildo&qid=1650475481&sprefix=10%2Blb%2Bmonster%2Bdildo%2Caps%2C74&sr=8-1&th=1
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 105)         '''
+11171eb1 (Chagens 2022-04-20 14:05:56 -0400 106)         s = Scrap()
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 107)         temp = s.html_code(self.Searchbar.text())
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 108)         yeet = self.convertTuple(temp[0])
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 109)         self.Comment.setText(yeet)
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 110) 
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 111)     def convertTuple(self, tup):
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 112)       # initialize an empty string
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 113)         str = ''
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 114)         it = 0
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 115)         for item in tup:
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 116)           str = str + item
+72d5fdc7 (nyy212  2022-04-20 16:16:03 -0400 117)         return str
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 118) 
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 119)     def select_theme(self):
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 120)       '''
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 121)           changes themes
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 122)       '''
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 123) 
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 124)       if self.Themes.currentText() == "Classic Karen":
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 125)           self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 126)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 brown, stop:1 gold);}")
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 127)       
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 128)       if self.Themes.currentText() == "Hacker":
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 129)           self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 255, 0, 255), stop:1 rgba(0, 255, 0, 255));"
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 130)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 black, stop:1 black);}")
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 131) 
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 132)       if self.Themes.currentText() == "Go Vols":
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 133)           self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 134)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 orange, stop:1 white);}")   
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 135)           
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 136)       if self.Themes.currentText() == "Rechot Games":
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 137)           self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(255, 0, 0, 255), stop:1 rgba(255, 0, 0, 255));"
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 138)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 purple, stop:1 black);}")
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 139) 
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 140)       if self.Themes.currentText() == "Discord":
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 141)           self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));"
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 142)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 charcoal, stop:1 grey);}")              
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 143)       
+dd715f91 (nyy212  2022-04-20 15:33:25 -0400 144) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 145) if __name__ == "__main__":
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 146)     app = QApplication(sys.argv) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 147)     
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 148)     window = Main_Window()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 149)     window.show()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 150) 
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 151)     sys.exit(app.exec())

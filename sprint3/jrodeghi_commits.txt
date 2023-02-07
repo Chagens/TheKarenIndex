@@ -1,0 +1,91 @@
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  1) from audioop import reverse
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  2) from operator import truediv
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400  3) import this
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  4) import requests
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  5) from bs4 import BeautifulSoup
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400  6) from pathlib import Path
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400  7) from selenium import webdriver
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  8) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400  9) class Scrap():
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 10)     def __init__(self) -> None:
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 11)         pass
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 12) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 13)     class Review:
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 14) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 15)         def __init__(self,text):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 16)             self.review_text = text
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 17)             self.review_star = ""
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 18)             pass
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 19) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 20)         def add_star(self,star):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 21)             self.review_star = star
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 22) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 23)     HEADER = ({'User-Agent':
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 24)                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36',
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 25)                 'Accept-Language': 'en-US, en;q=0.5'})
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 26) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 27)     #get the html from the webste
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 28)     def getdata(url):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 29)         r = requests.get(url,headers= Scrap.HEADER)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 30)         return r.text
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 31) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 32)     #search through the parsed data and pull out the review text
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 33)     #returns a list of review classes with the text and star of each review
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 34)     def parsedata(self,soup):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 35)         review_list = []
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 36)         review_stars = []
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 37)         review_stars_tmp = []
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 38)         data_str = ""
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 39) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 40)         #get the review text
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 41)         for item in soup.find_all("div",class_="a-expander-content reviewText review-text-content a-expander-partial-collapse-content"):
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 42)             review_list.append(item.get_text())
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 43) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 44)         #get the review stars
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 45)         for item in soup.find_all(attrs={"data-hook": "review-star-rating"}):
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 46)             review_stars_tmp.append(item.get_text())
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 47)           
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 48)         for item in review_stars_tmp:
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 49)             tmp = item.split(" ")
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 50)             review_stars.append(tmp[0])
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 51) 
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 52)         #combine the two lists into a dictionay keyed on stars
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 53)         combined = zip(review_stars,review_list)
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 54)         return tuple(combined)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 55) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 56)     #function that returns a pruned list of reviews for only the correct stars
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 57)     def prunereviews(self,review_list,stars):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 58)         pruned_list = []
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 59) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 60)         #sort the list in reverse so that the largest are at the front
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 61)         review_list.sort(key=lambda x: x.review_stars, reverse = True)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 62) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 63)         for reviews in review_list:
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 64)             if reviews.review_stars == stars:
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 65)                 pruned_list.append(reviews)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 66) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 67)         return pruned_list
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 68) 
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 69)     #put the html into the Beautiful Soup parser and get out the reviews with the correct stars
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 70)     def html_code(self,url):
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 71) 
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 72)         options = webdriver.ChromeOptions()
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 73)         options.add_argument('headless')
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 74)         options.add_argument("--lang=en")
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 75) 
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 76)         browser = webdriver.Chrome("chromedriver.exe",options=options,)
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 77)         browser.get(url)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 78) 
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 79)         soup = BeautifulSoup(browser.page_source,'html.parser')
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 80)         reviews = self.parsedata(soup)
+c2b3fe17 (Joel Rodeghiero 2022-04-19 20:18:55 -0400 81)         #pruned_reviews = self.prunereviews(reviews,5)
+201d4daa (Joel Rodeghiero 2022-04-19 20:21:26 -0400 82)         return reviews
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 83)         
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 84) 
+201d4daa (Joel Rodeghiero 2022-04-19 20:21:26 -0400 85) #s = Scrap()
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 86)     #URL = "https://www.google.com/search?q=ups%20store%20huntsville%20alabama&rlz=1C1MKDC_enUS856US856&oq=up&aqs=chrome.0.69i59j69i57j46i199i291i433i512j0i433i512j46i199i291i433i512j0i433i512j69i61l2.860j0j7&sourceid=chrome&ie=UTF-8&tbs=lf:1,lf_ui:4&tbm=lcl&rflfq=1&num=10&rldimm=8478361796219820579&lqi=Chx1cHMgc3RvcmUgaHVudHN2aWxsZSBhbGFiYW1hIgOIAQFIz-XOleaAgIAIWjIQABABGAAYARgCGAMiHHVwcyBzdG9yZSBodW50c3ZpbGxlIGFsYWJhbWEqBggCEAAQAZIBHHNoaXBwaW5nX2FuZF9tYWlsaW5nX3NlcnZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVTkpNelppVEVwQkVBRaoBERABKg0iCXVwcyBzdG9yZSgA&ved=2ahUKEwjPx4ap2rf2AhWEVN8KHchOAgQQvS56BAgCEE0&rlst=f#rlfi=hd:;si:8478361796219820579,l,Chx1cHMgc3RvcmUgaHVudHN2aWxsZSBhbGFiYW1hIgOIAQFIz-XOleaAgIAIWjIQABABGAAYARgCGAMiHHVwcyBzdG9yZSBodW50c3ZpbGxlIGFsYWJhbWEqBggCEAAQAZIBHHNoaXBwaW5nX2FuZF9tYWlsaW5nX3NlcnZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVTkpNelppVEVwQkVBRaoBERABKg0iCXVwcyBzdG9yZSgA;mv:[[34.8281121,-86.4785579],[34.6188113,-86.7321992]];tbs:lrf:!1m4!1u3!2m2!3m1!1e1!2m1!1e3!3sIAE,lf:1,lf_ui:4"
+201d4daa (Joel Rodeghiero 2022-04-19 20:21:26 -0400 87) #s.html_code("https://www.amazon.com/Streamlight-75636-Flashlight/dp/B003TODYU2/ref=sr_1_12?keywords=flashlights&qid=1646865764&sprefix=flashl%2Caps%2C129&sr=8-12")
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 88)     #reviews = parsedata(soup)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 89)     #reviews = parsedata(soup)
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 90) 
+^365ff6a (Joel Rodeghiero 2022-04-07 22:46:48 -0400 91)     #print(reviews)

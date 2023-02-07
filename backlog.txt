@@ -1,0 +1,56 @@
+Preliminary items:
+Research in app/web development
+Research in Python
+Research in web scraping
+Research in UI design
+
+
+Features:
+
+	Finding and organizing the most offensive/angry reviews in an application
+
+	Will primarily focus on Amazon reviews (will expand if there's time)
+
+	Language analysis functions that can search for and score:
+		Profanity
+		Absurdity (misspelled words, generally incomprehensible)
+		Likeliness of being a scam/bot
+		Racism(?)
+		Length (essay awards)
+
+	Efficient data storage for each page scraped for content
+
+
+Action items for each member:
+
+Samara:
+	Create language analysis functions in Python
+	Create completed list of categories that are scored within Python
+	Create extensive dictionaries for language analysis 
+
+Joel:
+	Create a functioning web scraper
+	Parse data to work with Amazon reviews
+	Explore web scraping on Google/Yelp/etc.
+
+Caleb:
+	Create search bar
+	Create category toggles
+	Create leaderboard display
+
+Will:
+	Create general app layout design 
+	Implement app functionality
+	Implement a "favorites" feature 
+
+Zack:
+	Implement a leaderboard for different categories' scores
+	Implement efficient storage system for reviews
+	Design json layout to be used by other team members
+
+
+
+Stretch Goals:
+	Machine learning implementation for language analysis
+	Expand to Google/Yelp/etc.
+	Expand to a website

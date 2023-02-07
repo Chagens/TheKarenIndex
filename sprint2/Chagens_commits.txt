@@ -1,0 +1,42 @@
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400  2) import requests
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400  3) import time
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400  4) from bs4 import BeautifulSoup
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400  5) #from spellchecker import SpellChecker
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400 10) from reviewscraper import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 11) from storing import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 12) #from file_analysis import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 13) from word_library import *
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 14) class Leader_Window(QWidget):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 15)   def __init__(self):
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 16)         super().__init__()
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 17)         layout = QVBoxLayout()
+587a20aa (Chagens 2022-04-06 22:34:00 -0400 18)         self.setGeometry(100,100,800, 600)
+587a20aa (Chagens 2022-04-06 22:34:00 -0400 19)         self.setWindowTitle('Leaderboard')
+587a20aa (Chagens 2022-04-06 22:34:00 -0400 20)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 21)         layout.addWidget(self.label)
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 22)         self.setLayout(layout)
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 23)         
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 28)     '''  
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 35)         self.setWindowIcon(QIcon('TheKarenIndex.png'))
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 36)         self.setWindowTitle('The Karen Index')
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 38)         self.Leaderboard_button.pressed.connect(self.display_leaderboard)
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 41)         self.Categories.activated.connect(self.select_category)
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 46)       
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 47)     def display_leaderboard(self):
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 48)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 49)           displays the leaderboard window
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 50)         '''
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 51)         w = Leader_Window()
+c987b8ef (Chagens 2022-04-06 19:06:05 -0400 52)         w.show()
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 53)         self.Category.setText("very epic leaderboard will be displayed once there is funtionality")
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400 54)         time.sleep(5)
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 69)     def select_category(self):
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 70)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 71)           selects the category
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 72)         '''
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 73)         self.Category.setText(self.Categories.currentText())
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 74) 
+7e4917f0 (Chagens 2022-04-06 22:54:35 -0400 87)           code was made as if bezos was not mean hence html_code call
+50f6cfc3 (Chagens 2022-04-06 22:21:21 -0400 89)         self.html_code(self.Searchbar.text())
+cb0b7faa (Chagens 2022-03-09 20:21:30 -0500 91) 
+

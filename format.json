@@ -1,0 +1,35 @@
+[
+    {
+       "URL": "metalheads.com",
+       "Text": "This stuff rocks",
+       "Stars": 2,
+       "ratings": {
+          "Anger": 5,
+          "Incomprehensible": 3,
+          "Length": 4,
+          "Scammy": 1
+       }
+    },
+    {
+       "URL": "goop.com",
+       "Text": "This stuff sticks",
+       "Stars": 2,
+       "ratings": {
+          "Anger": 5,
+          "Incomprehensible": 3,
+          "Length": 4,
+          "Scammy": 1
+       }
+    },
+    {
+       "URL": "oldcrap.com",
+       "Text": "This stuff rots",
+       "Stars": 2,
+       "ratings": {
+          "Anger": 5,
+          "Incomprehensible": 3,
+          "Length": 4,
+          "Scammy": 1
+       }
+    }
+ ]

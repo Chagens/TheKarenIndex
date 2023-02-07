@@ -1,0 +1,105 @@
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   1) #Will Hopkirk & Caleb Hagens
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   2) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   3) from PyQt6.QtGui import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   4) from PyQt6.QtWidgets import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   5) from PyQt6 import QtWidgets
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   6) from PyQt6.QtCore import *
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   7) from datetime import datetime, timedelta
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   8) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500   9) class Main_UI():
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  10) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  11)     def setup_UI(self, Main_Window):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  12)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  13)            Set up the UI
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  14)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  15) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  16)         # central_widget is a way of formatting so we can add layouts in layers 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  17)         self.central_widget = QtWidgets.QWidget(Main_Window)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  18)         self.central_widget.setObjectName("central_widget")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  19) 
+a0d1a322 (nyy212  2022-04-06 16:28:12 -0400  20)         # FUN background
+a0d1a322 (nyy212  2022-04-06 16:28:12 -0400  21)         self.central_widget.setStyleSheet("* {color: qlineargradient(spread:pad, x1:0 y1:0, x2:1 y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(0, 0, 0, 255));"
+a0d1a322 (nyy212  2022-04-06 16:28:12 -0400  22)             "background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 brown, stop:1 gold);}")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  23) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  24)         self.central_layout = QtWidgets.QVBoxLayout(self.central_widget) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  25)         self.central_layout.setObjectName("central_layout")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  26) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  27)         # Header layout to display title
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  28)         self.Header_layout = QtWidgets.QHBoxLayout()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  29)         self.Header_layout.setObjectName("Header_layout")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  30) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  31)         self.Title = QLabel()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  32)         self.Title.setText("The Karen Index")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  33)         self.Header_layout.addWidget(self.Title)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  34) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  35)         self.Clable = QLabel()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  36)         self.Clable.setText("Category: ")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  37)         self.Header_layout.addWidget(self.Clable)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  38) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  39)         self.Category = QLabel()
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  40)         self.Category.setText("- No Category -")
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  41)         self.Header_layout.addWidget(self.Category)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  42) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  43)         self.central_layout.addLayout(self.Header_layout)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  44) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  45)         # Button_layout_1 if we want more layouts added later we can
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  46)         self.Button_layout_1 = QtWidgets.QHBoxLayout()
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  47)         self.Button_layout_1.setObjectName("Button_layout_1")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  52)         self.Button_layout_1.addWidget(self.Searchbar)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  58)         self.Button_layout_1.addWidget(self.Leaderboard_button)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500  59) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  68)         self.Button_layout_1.addWidget(self.Categories)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  69) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  70)         self.central_layout.addLayout(self.Button_layout_1)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  71) 
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  72)         self.Button_layout_3 = QtWidgets.QHBoxLayout()
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  73)         self.Button_layout_3.setObjectName("Button_layout_3")
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  74) 
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  75)         self.Search_button = QtWidgets.QPushButton(self.central_widget)
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  76)         self.Search_button.setText("Search")
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  77)         self.Search_button.setStyleSheet("border-radius: -20px\n")
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  78)         self.Search_button.setMinimumSize(QSize(0, 25))
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  79)         self.Button_layout_3.addWidget(self.Search_button)
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  80) 
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  81)         self.central_layout.addLayout(self.Button_layout_3)
+1e6820b3 (nyy212  2022-04-06 17:10:53 -0400  82) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  83)         self.Button_layout_2 = QtWidgets.QHBoxLayout()
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  84)         self.Button_layout_2.setObjectName("Button_layout_2")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  85) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  86)         self.Favorites = QtWidgets.QComboBox(self.central_widget)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  87)         self.Favorites.setStyleSheet("border-radius: -20px\n")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  88)         self.Favorites.setMinimumSize(QSize(10, 0))
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  89)         self.Button_layout_2.addWidget(self.Favorites)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  90) 
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  91)         self.Favorite_button = QtWidgets.QPushButton(self.central_widget)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  92)         self.Favorite_button.setText("Favorite")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  93)         self.Favorite_button.setStyleSheet("border-radius: -20px\n")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  94)         self.Favorite_button.setMinimumSize(QSize(0, 25))
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  95)         self.Button_layout_2.addWidget(self.Favorite_button)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  97)         self.Remove_Favorite_button = QtWidgets.QPushButton(self.central_widget)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  98)         self.Remove_Favorite_button.setText("Remove Favorite")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400  99)         self.Remove_Favorite_button.setStyleSheet("border-radius: -20px\n")
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400 100)         self.Remove_Favorite_button.setMinimumSize(QSize(0, 25))
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400 101)         self.Button_layout_2.addWidget(self.Remove_Favorite_button)
+9a09a82d (nyy212  2022-04-06 16:40:24 -0400 103)         self.central_layout.addLayout(self.Button_layout_2)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 104) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 105)         self.Comment_layout = QtWidgets.QHBoxLayout()
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 106)         self.Comment_layout.setObjectName("Comment_layout")
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 107) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 108)         self.Comment = QLabel()
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 109)         self.Comment.setText("")
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 110)         self.Comment_layout.addWidget(self.Comment)
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 111) 
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 112)         self.central_layout.addLayout(self.Comment_layout)     
+953418f1 (nyy212  2022-04-06 17:48:32 -0400 113) 
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 114)         Main_Window.setCentralWidget(self.central_widget)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 115)             
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 116)     def Resize_Text_Label(self, event):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 117)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 118)             this section keeps the window format when resized
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 119)         '''
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 120)         default_text_size = 9
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 121)         if default_text_size < (self.rect().width() // 40):
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 122)             new_size = QFont('', self.rect().width() // 40)
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 123)         else:
+7d2b1436 (nyy212  2022-03-09 20:18:50 -0500 124)             new_size = QFont('', default_text_size)
